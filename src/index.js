@@ -34,8 +34,11 @@ module.exports = function ({port=8082, path=".", config}) {
     const handleFileChange = function (eventType, filename) {
         const log = () => console.log(`Detected file's change: ${p.join(this.filename, filename)} => ${eventType}`);
         const filter = (client, name=filename) => {
-            return p.isAbsolute(client.registerData.value)
+            if (client && client.registerData) {
+                return p.isAbsolute(client.registerData.value)
                 ? client.registerData.value == p.join(this.filename, name) : client.registerData.value == name
+            }
+            return false
         };
         const absolutePath = p.join(this.filename, filename);
         if (/*ft.isHTML(filename)*/app.pathMap.exists(absolutePath)) {

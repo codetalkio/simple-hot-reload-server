@@ -12,8 +12,10 @@ var handleFileChange = function handleFileChange(eventType, filename) {
     };
     var filter = function filter(client) {
         var name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : filename;
-
-        return path.isAbsolute(client.registerData.value) ? client.registerData.value == path.join(_this.filename, name) : client.registerData.value == name;
+        if (client && client.registerData) {
+            return path.isAbsolute(client.registerData.value) ? client.registerData.value == path.join(_this.filename, name) : client.registerData.value == name;
+        }
+        return false
     };
     var absolutePath = path.join(this.filename, filename);
     if ( /*ft.isHTML(filename)*/app.pathMap.exists(absolutePath)) {

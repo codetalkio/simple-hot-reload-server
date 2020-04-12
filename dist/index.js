@@ -46,8 +46,10 @@ module.exports = function (_ref) {
         };
         var filter = function filter(client) {
             var name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : filename;
-
-            return p.isAbsolute(client.registerData.value) ? client.registerData.value == p.join(_this.filename, name) : client.registerData.value == name;
+            if (client && client.registerData) {
+                return p.isAbsolute(client.registerData.value) ? client.registerData.value == p.join(_this.filename, name) : client.registerData.value == name;
+            }
+            return false
         };
         var absolutePath = p.join(this.filename, filename);
         if ( /*ft.isHTML(filename)*/app.pathMap.exists(absolutePath)) {
